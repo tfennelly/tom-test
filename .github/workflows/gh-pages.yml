@@ -27,29 +27,30 @@ jobs:
     steps:
       - name: Checkout main
         uses: actions/checkout@v3
+      
+      - name: Set up Git
+        run: |
+          export HEAD_COMMIT_USER_EMAIL=$(git log -1 --pretty=format:%ae)
+          export HEAD_COMMIT_USER_NAME=$(git log -1 --pretty=format:%an)
+          git config --global user.email "${HEAD_COMMIT_USER_EMAIL}"
+          git config --global user.name "${HEAD_COMMIT_USER_NAME}"
+      
       - name: Checkout www to www
         run: |
-          # Checkout the www branch to the www director
-          git clone https://${{secrets.GITHUB_TOKEN}}@github.com/tfennelly/tom-test.git www
-          cd ./www
-          git checkout www
+          git clone --depth 1 --branch www https://github.com/${{ github.repository }}.git www
 
       - name: Build site artifacts
         run: |
           # Build the site.
           # Is just a smiple copy of files here, but could be running of NPM commands etc.
           cp index.html ./www
+        working-directory: ./www
 
       - name: Deploy site artifacts
         run: |
           # Deploy the site.
           # Simply commit and push the www branch
-          export HEAD_COMMIT_USER_EMAIL=$(git log -1 --pretty=format:%ae)
-          export HEAD_COMMIT_USER_NAME=$(git log -1 --pretty=format:%an)
           export HEAD_COMMIT_LOG=$(git log -1 --pretty=%B)
-          git config --global user.email "${HEAD_COMMIT_USER_EMAIL}"
-          git config --global user.name "${HEAD_COMMIT_USER_NAME}"
-          cd ./www
           git add ./
           git commit --allow-empty -am "${HEAD_COMMIT_LOG}"
           git push origin www -f
