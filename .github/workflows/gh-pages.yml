@@ -52,6 +52,4 @@ jobs:
           cd ./www
           git add ./
           git commit --allow-empty -am "${HEAD_COMMIT_LOG}"
-          # git push origin www -f
-          git status
-          git remote -v
+          git push origin www -f
