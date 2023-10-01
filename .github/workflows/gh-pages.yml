@@ -42,9 +42,8 @@ jobs:
       - name: Build site artifacts
         run: |
           # Build the site.
-          # Is just a smiple copy of files here, but could be running of NPM commands etc.
-          cp index.html ./www
-        working-directory: ./www
+          # Is just a smiple copy of files into the www, but could be running of NPM commands etc.
+          cp ./index.html ./www
 
       - name: Deploy site artifacts
         run: |
@@ -54,3 +53,4 @@ jobs:
           git add ./
           git commit --allow-empty -am "${HEAD_COMMIT_LOG}"
           git push origin www -f
+        working-directory: www
