@@ -10,7 +10,7 @@ on:
 
 # Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -30,6 +30,11 @@ jobs:
       - name: Checkout www to www
         run: |
           # Checkout the www branch to the www director
+          export HEAD_COMMIT_USER_EMAIL=$(git log -1 --pretty=format:%ae)
+          export HEAD_COMMIT_USER_NAME=$(git log -1 --pretty=format:%an)
+          export HEAD_COMMIT_LOG=$(git log -1 --pretty=%B)
+          git config --global user.email "${HEAD_COMMIT_USER_EMAIL}"
+          git config --global user.name "${HEAD_COMMIT_USER_NAME}"
           git clone https://github.com/tfennelly/tom-test.git www
           cd ./www
           git checkout www
