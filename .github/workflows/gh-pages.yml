@@ -30,7 +30,7 @@ jobs:
       - name: Checkout www to www
         run: |
           # Checkout the www branch to the www director
-          git clone https://$GITHUB_TOKEN@github.com:tfennelly/tom-test.git www
+          git clone https://$GITHUB_TOKEN@github.com/tfennelly/tom-test.git www
           cd ./www
           git checkout www
 
