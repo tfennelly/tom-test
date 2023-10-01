@@ -44,7 +44,11 @@ jobs:
         run: |
           # Deploy the site.
           # Simply commit and push the www branch
+          export HEAD_COMMIT_USER_EMAIL=$(git log -1 --pretty=format:%ae)
+          export HEAD_COMMIT_USER_NAME=$(git log -1 --pretty=format:%an)
           export HEAD_COMMIT_LOG=$(git log -1 --pretty=%B)
+          git config --global user.email "${HEAD_COMMIT_USER_EMAIL}"
+          git config --global user.name "${HEAD_COMMIT_USER_NAME}"
           cd ./www
           git add ./
           git commit --allow-empty -am "${HEAD_COMMIT_LOG}"
