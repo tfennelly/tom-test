@@ -34,6 +34,7 @@ jobs:
           export HEAD_COMMIT_USER_NAME=$(git log -1 --pretty=format:%an)
           git config --global user.email "${HEAD_COMMIT_USER_EMAIL}"
           git config --global user.name "${HEAD_COMMIT_USER_NAME}"
+          echo "${{ secrets.GITHUB_TOKEN }}" | git credential approve
       
       - name: Checkout www to www
         run: |
